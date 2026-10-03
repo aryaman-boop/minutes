@@ -1,0 +1,85 @@
+union ActionItemResult = ActionItemType | ValidationError | PermissionDenied
+
+type ActionItemType {
+  id: ID!
+  title: String!
+  dueDate: Date
+  status: String!
+  completedAt: String
+  owner: UserType!
+}
+
+type AgendaItemType {
+  id: ID!
+  position: Int!
+  title: String!
+}
+
+"""Date (isoformat)"""
+scalar Date
+
+type MeetingConnection {
+  nodes: [MeetingType!]!
+  pageInfo: PageInfo!
+}
+
+input MeetingFilters {
+  teamId: ID = null
+  scheduledBefore: String = null
+}
+
+union MeetingResult = MeetingType | ValidationError | PermissionDenied
+
+type MeetingType {
+  id: ID!
+  title: String!
+  scheduledAt: String!
+  createdBy: UserType!
+  attendees: [UserType!]!
+  agendaItems: [AgendaItemType!]!
+  notes: [NoteType!]!
+  actionItems: [ActionItemType!]!
+}
+
+type Mutation {
+  createMeeting(teamId: ID!, title: String!, scheduledAt: String!): MeetingResult!
+  addNote(meetingId: ID!, body: String!): NoteResult!
+  createActionItem(meetingId: ID!, title: String!, ownerId: ID!, dueDate: Date = null, sourceNoteId: ID = null): ActionItemResult!
+  updateActionItemStatus(actionItemId: ID!, status: String!): ActionItemResult!
+  reorderAgendaItems(meetingId: ID!, agendaItemIds: [ID!]!): MeetingResult!
+}
+
+union NoteResult = NoteType | ValidationError | PermissionDenied
+
+type NoteType {
+  id: ID!
+  body: String!
+  createdAt: String!
+  author: UserType!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+type PermissionDenied {
+  message: String!
+}
+
+type Query {
+  me: UserType
+  meeting(id: ID!): MeetingType
+  meetings(filters: MeetingFilters = null, first: Int! = 20, after: String = null): MeetingConnection!
+  myActionItems(status: String = null, dueBefore: Date = null): [ActionItemType!]!
+}
+
+type UserType {
+  id: ID!
+  username: String!
+}
+
+type ValidationError {
+  field: String!
+  message: String!
+}

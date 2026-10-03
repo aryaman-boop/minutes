@@ -1,0 +1,51 @@
+[project]
+name = "minutes"
+version = "0.1.0"
+description = "A portfolio team meeting-notes GraphQL API."
+requires-python = ">=3.12"
+dependencies = [
+  "Django>=5.1,<5.3",
+  "strawberry-graphql-django>=0.62,<0.70",
+  "strawberry-graphql>=0.283,<0.328",
+  "graphql-core>=3.2,<3.3",
+  "psycopg[binary]>=3.2,<4",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["config*", "meetings*"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-django>=4.9", "ruff>=0.8", "mypy>=1.13", "django-stubs[compatible-mypy]>=5.1"]
+
+[dependency-groups]
+dev = ["pytest>=8.3", "pytest-django>=4.9", "ruff>=0.8", "mypy>=1.13", "django-stubs[compatible-mypy]>=5.1"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["strawberry.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["meetings.schema"]
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
