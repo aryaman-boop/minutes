@@ -30,4 +30,4 @@ Nested meeting reads explicitly use `select_related` and `prefetch_related`. The
 
 ## Quality
 
-Run `ruff check .`, `ruff format --check .`, `mypy config meetings`, and `pytest`. `.github/workflows/ci.yml` runs those commands against PostgreSQL 16 on every push and pull request once the repository has a GitHub remote; it has not run yet.
+Run `ruff check .`, `ruff format --check .`, `mypy config meetings`, and `pytest`. GitHub Actions runs those commands against PostgreSQL 16 on every push and pull request; `PROOF.md` links the first green run.

@@ -1,6 +1,10 @@
 # Evidence Ledger
 
-This file records verified local evidence only. The project is a local git repository; no GitHub Actions run or public repository exists yet, so nothing here has run on PostgreSQL.
+This file records verified evidence only. The repository is public at https://github.com/aryaman-boop/minutes (pushed 2026-10-02).
+
+## Continuous integration
+
+- GitHub Actions run [37086678808](https://github.com/aryaman-boop/minutes/actions/runs/37086678808), 2026-10-02 (21:35 EDT), commit `be01a59`: **success**. `ruff check`, `ruff format --check`, `mypy config meetings` and `pytest` (**11 passed**) on **PostgreSQL 16** (service container, `POSTGRES_DB` set so Django uses the PostgreSQL backend) with **Python 3.12.14**.
 
 ## Local verification
 
